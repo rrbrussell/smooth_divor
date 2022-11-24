@@ -1,0 +1,10 @@
+[package]
+name = "smooth_divor"
+version = "0.1.0"
+edition = "2021"
+description = "A pure rust implementation of the RPM package format"
+readme = "README.md"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
