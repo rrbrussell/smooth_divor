@@ -1,6 +1,4 @@
-#![allow(dead_code)]
-
-#[allow(non_camel_case_types)]
+//#[allow(non_camel_case_types)]
 #[repr(u32)]
 #[derive(Debug)]
 pub enum IndexFormats {
@@ -15,8 +13,7 @@ pub enum IndexFormats {
     StringArray,
     I18StringArray,
 }
-
-#[allow(non_camel_case_types)]
+#[cfg_attr(debug_assertions, allow(dead_code))]
 #[repr(i32)]
 #[derive(Debug)]
 pub enum HeaderTags {
@@ -508,6 +505,7 @@ pub enum HeaderTags {
 }
 
 /// Tags found in the signature header from a package.
+#[cfg_attr(debug_assertions, allow(dead_code))]
 #[repr(i32)]
 #[derive(Debug)]
 pub enum SignatureTags {
