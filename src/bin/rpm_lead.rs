@@ -1,6 +1,8 @@
+use binrw::BinRead;
 use clap::Parser;
 use std::fs::File;
 use std::io::Read;
+use std::io::Seek;
 use std::process::ExitCode;
 
 use smooth_divor::RPMLead;
@@ -14,7 +16,6 @@ struct Arguments {
 
 fn main() -> ExitCode {
     let arguments = Arguments::parse();
-    println!("{arguments:?}");
 
     let Some(rpm_file) = arguments.rpm_file else {
         println!("Please provide a rpm file to read.");
@@ -47,13 +48,17 @@ fn main() -> ExitCode {
     }
     print!("\n");
 
-    let Ok(lead) = RPMLead::from_u8_buffer(&buffer) else {
-        println!("Unable to parse the lead portion of the RPM file.");
-        return ExitCode::FAILURE;
+    rpm_file.rewind().unwrap();
+    match RPMLead::read(&mut rpm_file) {
+        Err(e) => {
+            println!("Unable to parse the lead portion of the RPM file.");
+            println!("{e:#?}");
+            return ExitCode::FAILURE;
+        }
+        Ok(lead) => {
+            println!("Valid RPM File: {}", lead.is_valid());
+            println!("The package name is: {}", lead.name());
+            return ExitCode::SUCCESS;
+        }
     };
-
-    println!("Valid RPM File: {}", lead.is_valid());
-    println!("The package name is: {}", lead.name());
-
-    return ExitCode::SUCCESS;
 }
