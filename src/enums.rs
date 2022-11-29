@@ -13,6 +13,7 @@ pub enum IndexFormats {
     StringArray,
     I18StringArray,
 }
+
 #[cfg_attr(debug_assertions, allow(dead_code))]
 #[repr(i32)]
 #[derive(Debug)]
