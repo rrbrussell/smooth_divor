@@ -10,3 +10,4 @@ readme = "README.md"
 [dependencies]
 clap = {version = "4", features = ["derive", "default"]}
 binrw = {version = "0"}
+enum-display = {version = "0"}

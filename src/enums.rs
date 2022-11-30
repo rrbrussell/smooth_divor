@@ -1,6 +1,9 @@
-//#[allow(non_camel_case_types)]
+use binrw::BinRead;
+use enum_display::EnumDisplay;
+
+#[derive(Debug, BinRead, EnumDisplay)]
+#[br(repr(u32), big)]
 #[repr(u32)]
-#[derive(Debug)]
 pub enum IndexFormats {
     Null = 0,
     Char,
@@ -15,8 +18,9 @@ pub enum IndexFormats {
 }
 
 #[cfg_attr(debug_assertions, allow(dead_code))]
+#[derive(Debug, BinRead, EnumDisplay)]
+#[br(repr(i32), big)]
 #[repr(i32)]
-#[derive(Debug)]
 pub enum HeaderTags {
     NotFound = -1,
     HeaderImage = 61,
@@ -507,12 +511,19 @@ pub enum HeaderTags {
 
 /// Tags found in the signature header from a package.
 #[cfg_attr(debug_assertions, allow(dead_code))]
-#[repr(i32)]
-#[derive(Debug)]
+#[derive(Debug, BinRead, EnumDisplay)]
+#[br(repr(u32), big)]
+#[repr(u32)]
 pub enum SignatureTags {
+    HeaderImage = 61,
+    HeaderSignatures,
+    /// Originally called Image.
+    HeaderImmutable,
+    HeaderRegions,
+    HeaderI18NTable = 100,
     /// Internal
     ///
-    /// Header + Pyload size (32bit)
+    /// Header + Payload size (32bit)
     Size = 1000,
     /// Deprecated
     ///
@@ -555,34 +566,36 @@ pub enum SignatureTags {
     /// Internal
     ///
     /// Broken SHA1, take 1.
-    BadSHA1_1 = HeaderTags::BadSHA1_1 as i32,
+    BadSHA1_1 = HeaderTags::BadSHA1_1 as u32,
     /// Internal
     ///
     /// Broken SHA1, take 2.
-    BadSHA1_2 = HeaderTags::BadSHA1_2 as i32,
+    BadSHA1_2 = HeaderTags::BadSHA1_2 as u32,
     /// Internal
     ///
     /// DSA header signature.
-    DSA = HeaderTags::DSAHeader as i32,
+    DSA = HeaderTags::DSAHeader as u32,
     /// Internal
     ///
     /// RSA header signature.
-    RSA = HeaderTags::RSAHeader as i32,
+    RSA = HeaderTags::RSAHeader as u32,
     /// Internal
     ///
     /// SHA1 header digest.
-    SHA1 = HeaderTags::SHA1Header as i32,
+    SHA1 = HeaderTags::SHA1Header as u32,
     /// Internal
     ///
     /// Header + Payload size (64bit) in bytes.
-    LongSize = HeaderTags::LongSize as i32,
+    LongSize = HeaderTags::LongSize as u32,
     /// Internal
     ///
     /// Uncompressed payload size (64bit) in bytes.
-    LongArchiveSize = HeaderTags::LongArchiveSize as i32,
-    SHA256 = HeaderTags::SHA256Header as i32,
-    FileSignatures = 274,
+    LongArchiveSize = HeaderTags::LongArchiveSize as u32,
+    SHA256 = HeaderTags::SHA256Header as u32,
+    OldFileSignatures = 274,
+    OldFileSignatureLength,
+    VeritySignatures = HeaderTags::VeritySignatures as u32,
+    VeritySignatureAlgorithm = HeaderTags::VeritySignatureAlgorithm as u32,
+    FileSignatures = 5090,
     FileSignatureLength,
-    VeritySignatures = HeaderTags::VeritySignatures as i32,
-    VeritySignatureAlgorithm = HeaderTags::VeritySignatureAlgorithm as i32,
 }

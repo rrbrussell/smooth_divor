@@ -7,3 +7,7 @@ pub const RPM_HEADER_MAGIC: [u8; 3] = [0x8e, 0xad, 0xe8];
 
 /// How large is the lead element of an RPM file.
 pub const RPM_LEAD_SIZE: usize = 96;
+
+/// How large a header element is.
+#[cfg_attr(debug_assertions, allow(dead_code))]
+pub const RPM_HEADER_SIZE: usize = 16;
